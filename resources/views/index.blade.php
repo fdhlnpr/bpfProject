@@ -1,4 +1,9 @@
-html
+@extends('layouts/commonMaster' )
+
+@section('layoutContent')
+
+<!-- Content -->
+@yield('content')
 <form id="payment-form" method="POST">
     @csrf
     <input type="text" name="name" placeholder="Nama" required />
@@ -38,4 +43,6 @@ html
         .catch(error => console.error('Error:', error));
     });
 </script>
+<!--/ Content -->
 
+@endsection

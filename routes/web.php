@@ -50,3 +50,5 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::get('/payment', [PaymentController::class, 'index'])->name('payment.index');
+
+Route::post('/jasa/transaction', [JasaController::class, 'createTransaction']);

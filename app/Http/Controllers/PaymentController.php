@@ -8,6 +8,11 @@ use Midtrans\Config;
 
 class PaymentController extends Controller
 {
+    public function callback(Request $request)
+{
+    // Logika untuk menangani callback dari Midtrans
+    // Anda bisa memproses status pembayaran di sini
+}
     public function index()
     {
         return view('payment.index');

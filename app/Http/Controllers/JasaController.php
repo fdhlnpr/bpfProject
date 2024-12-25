@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\jasa;
 use App\Http\Requests\StorejasaRequest;
 use App\Http\Requests\UpdatejasaRequest;
+use App\Models\barang;
 use Illuminate\Http\Request;
 use Midtrans\Snap;
 use Midtrans\Config;
@@ -16,7 +17,8 @@ class JasaController extends Controller
      */
     public function index()
     {
-        return view('jasa');
+        $items = barang::all();
+        return view('jasa', compact('items'));
     }
 
     /**
