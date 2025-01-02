@@ -361,16 +361,16 @@ button:hover {
                     <p>Total Barang: <span id="total-items">0</span></p>
                     <p>Total Harga: Rp<span id="total-price">0</span></p>
                 @if(Auth::check())
-    <a href="index" 
-       style="width: 100%; padding: 10px; background-color: #28a745; color: white; text-decoration: none; border-radius: 5px; text-align: center; display: inline-block;">
-        Bayar Sekarang
-    </a>
-@else
-    <a href="{{ route('login') }}" 
-       style="width: 100%; padding: 10px; background-color: #6c757d; color: white; text-decoration: none; border-radius: 5px; text-align: center; display: inline-block;">
-        Silakan Login untuk Melanjutkan
-    </a>
-@endif
+                <a href="{{ url('/payment') }}" 
+                style="width: 100%; padding: 10px; background-color: #28a745; color: white; text-decoration: none; border-radius: 5px; text-align: center; display: inline-block;">
+                    Bayar Sekarang
+                </a>
+            @else
+                <a href="{{ route('login') }}" 
+                style="width: 100%; padding: 10px; background-color: #6c757d; color: white; text-decoration: none; border-radius: 5px; text-align: center; display: inline-block;">
+                    Silakan Login untuk Melanjutkan
+                </a>
+            @endif
 
             </div>
         

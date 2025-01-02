@@ -7,48 +7,77 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PaymentController;
 use Illuminate\Support\Facades\Route;
 
+// Rute default aplikasi
 Route::get('/', function () {
+    // Mengembalikan view 'welcome' saat pengguna mengakses root URL
     return view('welcome');
 });
 
-Route::get('/beranda', [BerandaController::class, 'index'])->name('beranda');
-Route::resource('/destinasi', DestinasiController::class);
-Route::resource('/jasa', JasaController::class);
+// Rute untuk halaman beranda
+Route::get('/beranda', [BerandaController::class, 'index'])->name('beranda'); 
+// Memanggil metode index di BerandaController dan memberikan nama rute 'beranda'
 
+// Rute resource untuk Destinasi
+Route::resource('/destinasi', DestinasiController::class); 
+// Menyediakan operasi CRUD otomatis untuk DestinasiController
+
+// Rute resource untuk Jasa
+Route::resource('/jasa', JasaController::class); 
+// Menyediakan operasi CRUD otomatis untuk JasaController
+
+// Rute untuk registrasi pengguna
 Route::get('register', function () {
-    return view('auth.register'); // Buat view untuk registrasi
+    // Menampilkan view 'auth.register' untuk formulir registrasi
+    return view('auth.register');
 })->name('register');
 
-Route::post('register', [AuthController::class, 'register']);
+Route::post('register', [AuthController::class, 'register']); 
+// Mengirim data registrasi ke metode register di AuthController
 
+// Rute untuk login pengguna
 Route::get('login', function () {
-    return view('auth.login'); // Buat view untuk login
+    // Menampilkan view 'auth.login' untuk formulir login
+    return view('auth.login');
 })->name('login');
 
-Route::post('login', [AuthController::class, 'login']);
+Route::post('login', [AuthController::class, 'login']); 
+// Mengirim data login ke metode login di AuthController
 
-Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+// Rute untuk logout pengguna
+Route::post('logout', [AuthController::class, 'logout'])->name('logout'); 
+// Menggunakan metode logout di AuthController untuk keluar dari sesi
 
+// Rute dashboard untuk pengguna yang diautentikasi
 Route::get('dashboard', function () {
-    return view('beranda'); // Ganti dengan view yang sesuai
+    // Menampilkan view 'beranda' hanya jika pengguna terautentikasi
+    return view('beranda');
 })->middleware('auth');
 
-Route::get('/payment', function () {
-    // Logic untuk menampilkan halaman 'payment.index'
-    return view('payment.index');
-})->name('payment.index'); 
+// Rute untuk pembayaran
+Route::post('/payment', [PaymentController::class, 'createTransaction']); 
+// Menangani permintaan POST untuk membuat transaksi pembayaran
 
-Route::post('/payment', [PaymentController::class, 'createTransaction']);
-Route::get('/payment', [PaymentController::class, 'createTransaction']);
+Route::get('/payment', [PaymentController::class, 'createTransaction']); 
+// Menangani permintaan GET untuk halaman transaksi pembayaran
 
-Route::get('/jasa', [JasaController::class, 'index']);
-Route::post('/jasa/transaction', 'JasaController@createTransaction');
+// Rute tambahan untuk Jasa
+Route::get('/jasa', [JasaController::class, 'index']); 
+// Menampilkan daftar jasa dengan metode index di JasaController
 
+Route::post('/jasa/transaction', 'JasaController@createTransaction'); 
+// Menangani transaksi jasa dengan metode createTransaction
+
+// Kelompok rute dengan middleware 'auth' (hanya untuk pengguna terautentikasi)
 Route::middleware(['auth'])->group(function () {
-    Route::post('/payments/callback', [PaymentController::class, 'callback'])->name('payments.callback');
-    Route::resource('payments', PaymentController::class)->only(['index', 'create', 'store', 'show']);
+    // Callback untuk pembayaran
+    Route::post('/payments/callback', [PaymentController::class, 'callback'])->name('payments.callback'); 
+    // Menangani callback dari sistem pembayaran
+
+    // Resource untuk pembayaran dengan metode terbatas
+    Route::resource('payments', PaymentController::class)->only(['index', 'create', 'store', 'show']); 
+    // Menyediakan hanya metode tertentu untuk PaymentController
 });
 
-Route::get('/payment', [PaymentController::class, 'index'])->name('payment.index');
-
-Route::post('/jasa/transaction', [JasaController::class, 'createTransaction']);
+// Rute transaksi jasa
+Route::post('/jasa/transaction', [JasaController::class, 'createTransaction']); 
+// Mengelola transaksi jasa dengan metode createTransaction di JasaController
